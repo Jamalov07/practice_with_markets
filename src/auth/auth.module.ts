@@ -7,6 +7,7 @@ import { AuthService } from './auth.service';
 @Module({
   imports: [JwtModule.register({}), PrismaModule],
   controllers: [AuthController],
-  providers: [AuthService],
+  providers: [AuthService, ],
+  exports:[AuthService]
 })
 export class AuthModule {}

@@ -6,11 +6,14 @@ import {
   Param,
   Post,
   Put,
+  UseGuards,
 } from '@nestjs/common';
+import { JwtAuthGuard } from '../guards/user.guard';
 import { BranchesService } from './branches.service';
 import { CreateBranchesDto } from './dto/create-branches.dto';
 import { UpdateBranchesDto } from './dto/update-branches.dto';
 
+@UseGuards(JwtAuthGuard)
 @Controller('branches')
 export class BranchesController {
   constructor(private readonly branchService: BranchesService) {}

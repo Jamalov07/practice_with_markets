@@ -6,7 +6,10 @@ import {
   Param,
   Post,
   Put,
+  UseGuards,
 } from '@nestjs/common';
+import { JwtAuthGuard } from '../guards/user.guard';
+import { UserMiddleware } from '../middlewares/access.middlewares';
 import { CreateWorkerDto } from './dto/create-workers.dto';
 import { UpdateWorkerDto } from './dto/update-workers.dto';
 import { WorkersService } from './workers.service';
@@ -14,7 +17,8 @@ import { WorkersService } from './workers.service';
 @Controller('workers')
 export class WorkersController {
   constructor(private readonly workerService: WorkersService) {}
-
+  
+  @UseGuards(JwtAuthGuard)
   @Get()
   getAll() {
     return this.workerService.getAll();

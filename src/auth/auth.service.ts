@@ -45,7 +45,11 @@ export class AuthService {
     const newUser = await this.prismaService.user.create({
       data: { name: userBody.name, password: hashedPassword },
     });
-    const tokens = await this.getTokens(newUser.id, newUser.name);
+    const tokens = await this.getTokens(
+      newUser.id,
+      newUser.name,
+      newUser.password,
+    );
 
     return { newUser, tokens };
   }
@@ -60,7 +64,11 @@ export class AuthService {
     if (!passwordMatches) {
       throw new UnauthorizedException('Ro`yhatdan o`tilmagan');
     }
-    const tokens = await this.getTokens(user[0].id, user[0].password);
+    const tokens = await this.getTokens(
+      user[0].id,
+      user[0].name,
+      user[0].password,
+    );
     return { user, tokens };
   }
 
@@ -83,7 +91,11 @@ export class AuthService {
       where: { id: +id },
       data: { name: userBody.name, password: hashedPassword },
     });
-    const tokens = await this.getTokens(updatedUser.id, updatedUser.name);
+    const tokens = await this.getTokens(
+      updatedUser.id,
+      updatedUser.name,
+      updatedUser.password,
+    );
     return { user: updatedUser, tokens };
   }
 
@@ -98,10 +110,11 @@ export class AuthService {
     return { message: 'user deleted', user };
   }
 
-  async getTokens(userId: number, name: string) {
+  async getTokens(userId: number, name: string, password: string) {
     const jwtPayload = {
       sub: userId,
       name: name,
+      password: password,
     };
     const [accessToken, refreshToken] = await Promise.all([
       this.jwtService.signAsync(jwtPayload, {

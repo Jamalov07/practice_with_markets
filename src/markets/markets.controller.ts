@@ -6,10 +6,13 @@ import {
   Param,
   Post,
   Put,
+  UseGuards,
 } from '@nestjs/common';
+import { JwtAuthGuard } from '../guards/user.guard';
 import { CreateMarketDto } from './dto/create-markets.dto';
 import { MarketsService } from './markets.service';
 
+@UseGuards(JwtAuthGuard)
 @Controller('markets')
 export class MarketsController {
   constructor(private readonly marketService: MarketsService) {}
