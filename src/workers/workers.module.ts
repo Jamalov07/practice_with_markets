@@ -11,7 +11,7 @@ import { WorkersService } from './workers.service';
   providers: [WorkersService],
 })
 export class WorkersModule {
-  configure(consumer: MiddlewareConsumer) {
-    consumer.apply(UserMiddleware).forRoutes(WorkersController);
-  }
+  // configure(consumer: MiddlewareConsumer) {
+  //   consumer.apply(UserMiddleware).forRoutes(WorkersController);
+  // }
 }

@@ -14,11 +14,11 @@ import { CreateWorkerDto } from './dto/create-workers.dto';
 import { UpdateWorkerDto } from './dto/update-workers.dto';
 import { WorkersService } from './workers.service';
 
+@UseGuards(JwtAuthGuard)
 @Controller('workers')
 export class WorkersController {
   constructor(private readonly workerService: WorkersService) {}
   
-  @UseGuards(JwtAuthGuard)
   @Get()
   getAll() {
     return this.workerService.getAll();
